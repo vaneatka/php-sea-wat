@@ -6,10 +6,12 @@
 
 // optimize code / switch
 // for in for
+session_start();
 
 
 
-$map=[
+
+$map= $_SESSION['map'] ?? [
     [0,1,0,0,0,0,0,0,0,0],
     [0,1,0,2,0,0,0,0,0,0],
     [0,1,0,0,0,0,0,0,0,0],
@@ -20,24 +22,39 @@ $map=[
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]
-]
+];
 
 
 ?>
 
 
-<?php  if($map[0][0]==0) {?>
-<img src="icons/water.png" alt="">
-<?php   }?>
+<?php
+foreach($map as $r=>$row){
+    foreach($row as $c=>$col){
+        if($col == 0){
+            $icon= 'water.png';
+        };
+        if($col == 1){
+            $icon= 'ship.png';
+        };
+        if($col == 2){
+            $icon= 'miss.png';
+        };
+        if($col == 4){
+            $icon= 'explode.png';
+        };?>
+        <a href="shoot.php?r=<?php print $r?>&c=<?php print $c ?>" >
+        <img src="icons/<?php print $icon?>" alt=""/>
+        </a>
+        <?php
+    }
+?>
+<br>
+<?php
+}
 
-<?php  if($map[0][0]==1) {?>
-<img src="icons/ship.png" alt="">
-<?php   }?>
+$_SESSION['map'] = $map;
 
-<?php  if($map[0][0] == 2) {?>
-<img src="icons/miss.png" alt="">
-<?php   }?>
-
-<?php  if($map[0][0]==4) {?>
-<img src="icons/explode.png" alt="">
-<?php   }?>
+?>
+<hr>
+<a href="die.php"> DIE</a>
